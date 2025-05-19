@@ -1,0 +1,28 @@
+.TH ASUS-BACKLIGHT 1 "May 2025" "1.0" "Asus Keyboard Backlight Control"
+.SH NAME
+asus-backlight \- control Asus laptop keyboard backlight on Linux
+.SH SYNOPSIS
+.B asus-backlight
+[\fIOPTIONS\fR]
+.SH DESCRIPTION
+A script to control the keyboard backlight on Asus laptops.
+.SH OPTIONS
+.TP
+.BR --mode " MODE"
+Set the backlight mode (0=Static, 1=Breathing, 2=Color Cycle).
+.TP
+.BR --speed " SPEED"
+Set the speed (0=Slow, 1=Medium, 2=Fast).
+.TP
+.BR --color " R,G,B"
+Set the color in RGB format (e.g., 255,0,0).
+.TP
+.BR --status
+Show current backlight setting.
+.TP
+.BR --help
+Show help message.
+.SH EXAMPLES
+.B asus-backlight --mode 1 --speed 2 --color 0,255,0
+.SH AUTHOR
+Written by Harshit Pawar. 

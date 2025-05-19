@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<policyconfig>
+  <action id="com.github.harshitpawar64.asus-backlight">
+    <description>Change Asus keyboard backlight</description>
+    <message>Authentication is required to change the Asus keyboard backlight.</message>
+    <defaults>
+      <allow_any>auth_admin_keep</allow_any>
+      <allow_inactive>auth_admin_keep</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">/usr/local/bin/asus-backlight-helper</annotate>
+  </action>
+</policyconfig> 

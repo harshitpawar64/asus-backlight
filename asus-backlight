@@ -1,0 +1,83 @@
+#!/bin/bash
+
+# Define the path to the backlight control
+path="/sys/devices/platform/asus-nb-wmi/leds/asus::kbd_backlight/kbd_rgb_mode"
+
+# Default values
+mode="2"          # Default mode is Color Cycle
+speed="1"         # Default speed is Medium
+color="255,0,0"   # Default color is red
+
+# Function to display usage
+usage() {
+    echo -e "\nUsage:"
+    echo "  asus-backlight [flags]"
+    echo
+    echo "Flags:"
+    echo "  --mode MODE       Set the backlight mode:"
+    echo "                    0 = Static"
+    echo "                    1 = Breathing"
+    echo "                    2 = Color Cycle"
+    echo
+    echo "  --speed SPEED      Set the speed:"
+    echo "                    0 = Slow"
+    echo "                    1 = Medium"
+    echo "                    2 = Fast"
+    echo
+    echo "  --color R,G,B     Set the color in RGB format (e.g., 255,0,0 for red)."
+    echo
+    echo "  --help        Show this help message."
+    exit 0
+}
+
+# Check if no arguments are provided
+if [ "$#" -eq 0 ]; then
+    usage
+fi
+
+# Parse command-line arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --mode) mode="$2"; shift ;;
+        --speed) speed="$2"; shift ;;
+        --color) color="$2"; shift ;;
+        --help) usage ;;
+        *) echo "Error: Unknown option: $1"; usage ;;
+    esac
+    shift
+done
+
+# Parse the color
+IFS=',' read -r red green blue <<< "$color"
+
+# Validate color values
+if ! [[ "$red" =~ ^[0-9]+$ && "$green" =~ ^[0-9]+$ && "$blue" =~ ^[0-9]+$ ]] || 
+   [ "$red" -lt 0 ] || [ "$red" -gt 255 ] || 
+   [ "$green" -lt 0 ] || [ "$green" -gt 255 ] || 
+   [ "$blue" -lt 0 ] || [ "$blue" -gt 255 ]; then
+    echo "Error: Invalid color format. Please use 'R,G,B' format with values between 0 and 255."
+    exit 1
+fi
+
+# Check if the sysfs path exists
+if [ ! -e "$path" ]; then
+    echo "Error: Backlight control path '$path' does not exist."
+    exit 1
+fi
+
+# Validate mode and speed values
+if ! [[ "$mode" =~ ^[0-2]$ ]]; then
+    echo "Error: Invalid mode. Must be 0, 1, or 2."
+    exit 1
+fi
+if ! [[ "$speed" =~ ^[0-2]$ ]]; then
+    echo "Error: Invalid speed. Must be 0, 1, or 2."
+    exit 1
+fi
+
+# Call the helper via pkexec
+if pkexec /usr/local/bin/asus-backlight-helper "$mode" "$speed" "$red" "$green" "$blue"; then
+    echo "Success: Backlight settings updated successfully."
+else
+    echo "Error: Failed to update backlight settings."
+fi

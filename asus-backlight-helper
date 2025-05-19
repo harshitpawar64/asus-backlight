@@ -1,0 +1,18 @@
+#!/bin/bash
+# Usage: asus-backlight-helper <mode> <speed> <red> <green> <blue>
+set -e
+
+path="/sys/devices/platform/asus-nb-wmi/leds/asus::kbd_backlight/kbd_rgb_mode"
+
+if [ "$EUID" -ne 0 ]; then
+    echo "Error: This helper must be run as root." >&2
+    exit 1
+fi
+
+mode="$1"
+speed="$2"
+red="$3"
+green="$4"
+blue="$5"
+
+echo "1 $mode $red $green $blue $speed" > "$path" 
