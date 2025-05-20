@@ -1,4 +1,3 @@
-@@ -0,0 +1,76 @@
 # asus-backlight
 
 A lightweight command-line utility to control Asus laptop keyboard backlighting on Linux systems.
