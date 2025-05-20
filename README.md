@@ -1,3 +1,4 @@
+@@ -0,0 +1,76 @@
 # asus-backlight
 
 A lightweight command-line utility to control Asus laptop keyboard backlighting on Linux systems.
@@ -15,28 +16,21 @@ A lightweight command-line utility to control Asus laptop keyboard backlighting 
 
 ## Installation
 
-You can install **asus-backlight** using either the provided install script or the `.deb` package.
-
-### Option 1: Install Script (Universal, Source-Based)
-
-```bash
-git clone https://github.com/harshitpawar64/asus-backlight.git
-cd asus-backlight
-sudo ./install.sh
-```
-- This will copy all necessary files, set up bash completion, man page, and polkit policy.
-
-### Option 2: Debian Package (.deb) [Recommended for Debian/Ubuntu]
-
-1. Download the latest `.deb` from the [Releases page](https://github.com/harshitpawar64/asus-backlight/releases).
-2. Install it:
+1. Clone this repository:
    ```bash
-   sudo dpkg -i asus-backlight_1.0.0_all.deb
+   git clone https://github.com/harshitpawar64/asus-backlight.git
+   cd asus-backlight
    ```
-3. If you see dependency errors, fix them with:
+2. Run the install script (requires sudo):
    ```bash
-   sudo apt-get install -f
+   sudo ./install.sh
    ```
+   This will:
+   - Copy `asus-backlight` to `/usr/local/bin/`
+   - Copy `asus-backlight-helper` to `/usr/local/bin/` (used for privileged actions)
+   - Install the man page
+   - Install bash completion
+   - Install the Polkit policy for secure privilege escalation
 
 ## Usage
 ```bash
